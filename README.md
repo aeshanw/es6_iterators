@@ -32,3 +32,8 @@ ES6 currently has iterator-support for
 * Sets
 
 You can apparently iterate over a tree datastructure tho what ES6 would do is basically squash it into a linear structure before iterating over it.
+
+
+# Conclusion
+
+I didn't have time to go into `21.8 The ECMAScript 6 iteration protocol in depth` So I'll be ending it here.
