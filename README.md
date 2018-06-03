@@ -42,8 +42,26 @@ const arr = ['a', 'b', 'c'];
 const iter = arr[Symbol.iterator](); // Array Iterator {}
 ```
 
-But as it mentions that any of the above data types (which all implment the `Iterable` interface.)
+But as it mentions that any of the above data types (which all implment the `Iterable` interface), would expose a similar method.
 
+So lets try a `String`.
+
+```
+const str = "Hello World!";
+
+const strIter = str[Symbol.iterator](); // StringIterator {}
+```
+
+So it's safe to assume the method should apply to the rest.
+
+__Notice the iterators returned are of different 'types' i.e: different prototypes.__
+
+```
+strIter 
+StringIterator {}__proto__: String Iterator
+iter
+Array Iterator {}__proto__: Array Iterator
+```
 
 # Conclusion
 
