@@ -54,13 +54,44 @@ const strIter = str[Symbol.iterator](); // StringIterator {}
 
 So it's safe to assume the method should apply to the rest.
 
-__Notice the iterators returned are of different 'types' i.e: different prototypes.__
+__Note: the iterators returned are of different 'types' i.e: different prototypes.__
 
 ```
 strIter 
 StringIterator {}__proto__: String Iterator
 iter
 Array Iterator {}__proto__: Array Iterator
+```
+
+### Iterating with an iterator
+
+Now that we have a means of traversing a data type of our choice, let's try it out with some exercises:
+
+```
+iter.next()
+{value: "a", done: false}
+strIter.next()
+{value: "H", done: false}
+
+iter.next()
+{value: "b", done: false}
+strIter.next()
+{value: "e", done: false}
+```
+
+Using the iterators we got in the earlier example we're able to traverse through the data structures in a  `linear` fashion. We have no means of reversing the direction of traversal (which would probabaly return a re-invokation of the `iterator method`)
+
+#### Example (using let insted of const)
+
+```
+let strIter2 = str[Symbol.iterator]();
+
+.....
+
+strIter2 = str[Symbol.iterator](); //reset iterator
+StringIterator {}
+strIter2.next()
+{value: "H", done: false}
 ```
 
 # Conclusion
