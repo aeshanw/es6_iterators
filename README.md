@@ -1,5 +1,7 @@
 # ES6 Iterators
 
+This topic discusses the material taken from http://exploringjs.com/es6/ch_iteration.html
+
 ## Pre-ES6
 
 This covers the new enhancements to Looping in ES6, namely the Iterators.
@@ -32,6 +34,15 @@ ES6 currently has iterator-support for
 * Sets
 
 You can apparently iterate over a tree datastructure tho what ES6 would do is basically squash it into a linear structure before iterating over it.
+
+### Getting the iterator
+The book given an `Array` as a simple example of how one would get a `Iterator` from a data structure.
+```
+const arr = ['a', 'b', 'c'];
+const iter = arr[Symbol.iterator](); // Array Iterator {}
+```
+
+But as it mentions that any of the above data types (which all implment the `Iterable` interface.)
 
 
 # Conclusion
