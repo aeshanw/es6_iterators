@@ -211,6 +211,9 @@ set.has('yellow')
 
 I considered going into this but as it notes that the preferred ES6-way to implement iterables would be via `Generators`. I thought it best to skip over this section till we cover the `Generators` chapter.
 
+# More examples of iterables
+
+Basically a collection of tool functions that assist in iterating through non-iterable and supporting features not supported by ES6 Iterables. 
 
 # Conclusion
 
