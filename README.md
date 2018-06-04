@@ -94,6 +94,124 @@ strIter2.next()
 {value: "H", done: false}
 ```
 
+#### Iterable computed data
+
+All `Iterable` data structures have methods which return iterable objects which may save the effort of writing custom code for traversal purposes.
+
+```
+const arr = ['a','b','c'];
+
+arr.entries(); // Array Iterator {}
+
+arr.keys();
+
+arr.values();
+
+for (const x of arr.entries()){ 
+  console.log("%s : %s",x[0],x[1]);
+}
+
+//output
+0 : a
+1 : b
+2 : c
+
+```
+
+
+#### Iterating over Plain Objects
+
+Previously in ES5, for lack of a better data structure we used `Objects` as rudimentary `Maps`. Although Objects (via their proprties) were iterable back then to support such methods, this feature has been removed in ES6.
+
+```
+const data = {
+  name: 'hello',
+  count: 2
+}
+for (const x of data) { // Uncaught TypeError: data is not iterable
+    console.log(x);
+}
+```
+
+Note: Though indirectly-iterating over object properties are still possible via tool functions like `objectEntries()`.
+
+### Language constructs that are Iterable
+
+Of the complete list which support the iteration protocol:
+
+* Destructuring via an Array pattern
+* for-of loop
+* Array.from()
+* Spread operator (...)
+* Constructors of Maps and Sets
+* Promise.all(), Promise.race()
+* yield*
+
+I will discuss a few choice-picks:
+
+#### Array.from()
+
+Basically an Array-ify method for all `Iterable` data structures.
+
+It works for:
+
+```
+Array.from(new Map().set(false, 'no').set(true, 'yes'))
+Array.from({ length: 2, 0: 'hello', 1: 'world' }) // (2) ["hello", "world"]
+
+```
+
+But doesn't work on Plain Objects
+
+```
+const data = {
+  name: 'hello',
+  count: 2,
+  color: '#ffff'
+}
+
+Array.from(data); // []
+```
+
+#### Spreads ...
+
+Since `...` allows you to insert an array (i.e: values of an iterable) into another array:
+
+```
+const arr = ['b', 'c'];
+['a', ...arr, 'd']
+['a', 'b', 'c', 'd']
+```
+
+It should allow the same of any `Iterable`:
+
+```
+let iterable = new Map().set(false, 'no').set(true, 'yes')
+let arr = ['a', ...iterable, 'd'] //  ["a", Array(2), Array(2), "d"]
+
+```
+
+#### Maps & Sets
+
+You can 'magically' construct and initialize Maps by passing in params as `Array of Arrays` (i.e: `2D Array`):
+
+```
+const map = new Map([['uno', 'one'], ['dos', 'two']]);
+map.get('dos')
+```
+
+The same applies to Sets (tho with a `1D` rather than a `2D Array`).
+
+```
+const set = new Set(['red', 'green', 'blue']);
+set.has('yellow')
+```
+
+### Implementing iterables
+
+I considered going into this but as it notes that the preferred ES6-way to implement iterables would be via `Generators`. I thought it best to skip over this section till we cover the `Generators` chapter.
+
+
 # Conclusion
 
-I didn't have time to go into `21.8 The ECMAScript 6 iteration protocol in depth` So I'll be ending it here.
+I didn't have time to go into `21.6 More examples of iterables` So I'll be ending it here.
