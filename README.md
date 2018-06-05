@@ -222,10 +222,10 @@ let promise2 = new Promise((resolve, reject) => {
   }, 500);
 });
 
-const promiseSet = new Set();
+let promiseSet = new Set();
 promiseSet.add(promise1).add(promise2)
 
-Promise.all(iterableOverPromises).then(function(){
+Promise.all(promiseSet).then(function(){
   console.log("All done!");
 });
 
