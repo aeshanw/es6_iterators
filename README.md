@@ -207,6 +207,31 @@ const set = new Set(['red', 'green', 'blue']);
 set.has('yellow')
 ```
 
+#### Promises
+
+```
+let promise1 = new Promise((resolve, reject) => {
+  setTimeout(function(){
+    resolve("Success!"); // Yay! Everything went well!
+  }, 250);
+});
+
+let promise2 = new Promise((resolve, reject) => {
+  setTimeout(function(){
+    resolve("Success!"); // Yay! Everything went well!
+  }, 500);
+});
+
+const promiseSet = new Set();
+promiseSet.add(promise1).add(promise2)
+
+Promise.all(iterableOverPromises).then(function(){
+  console.log("All done!");
+});
+
+
+```
+
 ### Implementing iterables
 
 I considered going into this but as it notes that the preferred ES6-way to implement iterables would be via `Generators`. I thought it best to skip over this section till we cover the `Generators` chapter.
