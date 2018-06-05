@@ -209,6 +209,10 @@ set.has('yellow')
 
 #### Promises
 
+Both `Promise.all` & `Promise.race` accept any `Iterable` object containing Promises.
+
+So insted of a the traditional `Array` used in such examples we could just as easily pass in a `Set`.
+
 ```
 let promise1 = new Promise((resolve, reject) => {
   setTimeout(function(){
@@ -231,6 +235,29 @@ Promise.all(promiseSet).then(function(){
 
 
 ```
+
+Same applies to `race` using a `Map`
+
+```
+let promiseMap = new Map();
+
+promiseMap.set("promise1", new Promise((resolve, reject) => {
+  setTimeout(function(){
+    resolve("Promise1!"); 
+  }, 3500);
+}))
+promiseMap.set("promise2",new Promise((resolve, reject) => {
+  setTimeout(function(){
+    resolve("Promise 2!");
+  }, 250);
+}))
+
+Promise.race(promiseMap).then(function(result){
+  console.log("The winner is:", result);
+});
+
+```
+
 
 ### Implementing iterables
 
