@@ -263,11 +263,11 @@ Promise.race(promiseMap).then(function(result){
 
 I considered going into this but as it notes that the preferred ES6-way to implement iterables would be via `Generators`. I thought it best to skip over this section till we cover the `Generators` chapter.
 
-# More examples of iterables
+### More examples of iterables
 
 Basically a collection of tool functions that assist in iterating through non-iterable and supporting features not supported by ES6 Iterables. 
 
-## objectEntries
+#### objectEntries
 
 As mentioned earlier ES6 disallows the iteration of pure object properties. To get around this feature you will need to create a tool, `objectEntries` to convert the object to an `Iterable` object.
 
@@ -320,6 +320,8 @@ for (const [key,value] of objectEntries(obj)) {
 
 This is troublesome but it's hinted that future ES6 Implementations may offer this tool natively.
 
+#### Combinators for iterables
+
 # Conclusion
 
-// I didn't have time to go into `21.7 More examples of iterables` So I'll be ending it here.
+I didn't have time to go into `21.6 More examples of iterables` So I'll be ending it here.
