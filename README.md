@@ -267,6 +267,59 @@ I considered going into this but as it notes that the preferred ES6-way to imple
 
 Basically a collection of tool functions that assist in iterating through non-iterable and supporting features not supported by ES6 Iterables. 
 
+## objectEntries
+
+As mentioned earlier ES6 disallows the iteration of pure object properties. To get around this feature you will need to create a tool, `objectEntries` to convert the object to an `Iterable` object.
+
+```
+const obj = { first: 'Jane', last: 'Doe', getName: function(){ console.log("Name!")} };
+
+for(var prop of obj){
+  console.log(prop); 
+}
+
+// TypeError: obj is not iterable
+
+for (const [key,value] of obj.entries()) {
+    console.log(`${key}: ${value}`);
+}
+
+//TypeError: obj.entries(...) is not a function or its return value is not iterable
+
+function objectEntries(obj) {
+    let index = 0;
+
+    // In ES6, you can use strings or symbols as property keys,
+    // Reflect.ownKeys() retrieves both
+    const propKeys = Reflect.ownKeys(obj);
+
+    return {
+        [Symbol.iterator]() {
+            return this;
+        },
+        next() {
+            if (index < propKeys.length) {
+                const key = propKeys[index];
+                index++;
+                return { value: [key, obj[key]] };
+            } else {
+                return { done: true };
+            }
+        }
+    };
+}
+
+for (const [key,value] of objectEntries(obj)) {
+    console.log(`${key}: ${value}`);
+}
+
+// first: Jane
+// last: Doe
+// getName: function(){ console.log("Name!")}
+```
+
+This is troublesome but it's hinted that future ES6 Implementations may offer this tool natively.
+
 # Conclusion
 
-I didn't have time to go into `21.6 More examples of iterables` So I'll be ending it here.
+// I didn't have time to go into `21.7 More examples of iterables` So I'll be ending it here.
