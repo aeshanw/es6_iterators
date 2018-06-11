@@ -322,6 +322,101 @@ This is troublesome but it's hinted that future ES6 Implementations may offer th
 
 #### Combinators for iterables
 
+Simply described as a function that combines existing iterables and creates new ones.
+
+#####  take(n, iterable)
+
+```
+function take(n, iterable) {
+    const iter = iterable[Symbol.iterator]();
+    return {
+        [Symbol.iterator]() {
+            return this;
+        },
+        next() {
+            if (n > 0) {
+                n--;
+                return iter.next();
+            } else {
+                return { done: true };
+            }
+        }
+    };
+}
+
+const arr = ['a', 'b', 'c', 'd'];
+for (const x of take(2, arr)) {
+    console.log(x);
+}
+```
+
+As the example above shows, `take(n, iterable)` basically returns the first n-elements of an iterable object (an Array in this case). a subset of iterable object which can itself be iterated via a `for-of` loop.
+
+##### zip(...iterables)
+
+```
+function zip(...iterables) {
+    const iterators = iterables.map(i => i[Symbol.iterator]());
+    let done = false;
+    return {
+        [Symbol.iterator]() {
+            return this;
+        },
+        next() {
+            if (!done) {
+                const items = iterators.map(i => i.next());
+                done = items.some(item => item.done);
+                if (!done) {
+                    return { value: items.map(i => i.value) };
+                }
+                // Done for the first time: close all iterators
+                for (const iterator of iterators) {
+                    if (typeof iterator.return === 'function') {
+                        iterator.return();
+                    }
+                }
+            }
+            // We are done
+            return { done: true };
+        }
+    }
+}
+```
+`zip` takes a `spread` of iterables, which are essentially any number of iterable object parameters and returns them as an `Array` of tuples of length `n`, where `n` is the length of the _shortest input iterable_ in the spread `...iterables`.
+```
+const zipped = zip(['a', 'b', 'c'], ['d', 'e', 'f', 'g']);
+for (const x of zipped) {
+    console.log(x);
+}
+```
+
+The same should work for `Set`
+
+```
+  let set1 = new Set([10, 9, 'hello', 22])
+  let set2 = new Set([2, 'b', 4])
+  let set3 = new Set(['a', 9, 21])
+  let zippedSet = zip(set1, set2, set3)
+  for (const x of zippedSet) {
+      console.log(x);
+  }
+```
+As it can be seen the output is limited in length by the shortest input iterable.
+
+Lets try with a mix of Iterable types
+```
+  let set1 = new Set([10, 9, 'hello', 22])
+  let arr2 = [2, 'b', 4]
+  let map3 = new Map([[ 1, 'one' ],[ 2, 'two' ]])
+  let zippedSet = zip(set1, arr2, map3)
+  for (const x of zippedSet) {
+      console.log(x);
+  }
+```
+
+This works and returns 2 arrays since the shortest was the Map of length `2`. we note that the `[key,value]` pair is the map-element item of the tuple output.
+
+
 # Conclusion
 
 I didn't have time to go into `21.6 More examples of iterables` So I'll be ending it here.
