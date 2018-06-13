@@ -417,6 +417,92 @@ Lets try with a mix of Iterable types
 This works and returns 2 arrays since the shortest was the Map of length `2`. we note that the `[key,value]` pair is the map-element item of the tuple output.
 
 
+####  Infinite iterables
+
+Essentially Iterables that never call `done`.
+
+This function for example, should not be iterating `entirely` over a for-of loop:
+```
+function naturalNumbers() {
+    let n = 0;
+    return {
+        [Symbol.iterator]() {
+            return this;
+        },
+        next() {
+            return { value: n++ };
+        }
+    }
+}
+```
+
+Doing caused my Chrome console to become unresponsive. As would be expected of any infitite loop on a browser.
+
+```
+for(const x of naturalNumbers()){ console.log(x); }
+```
+So in order to use infite-iterables we have 3-ways:
+
+#### if-breaks
+
+A traditional method for handling infinite loops familar to any ES5-user.
+
+```
+for (const x of naturalNumbers()) {
+    if (x > 2) break;
+    console.log(x);
+}
+```
+
+#### subsets via zip
+
+A subset of an infinite iterable can be safely iterated over.
+
+```
+const [a, b, c] = naturalNumbers();
+
+// this exacts the first 3 values of the iterable for example.
+```
+
+You could also use an Array of Strings using `zip` insted.
+
+```
+const zipped = zip(['a', 'b', 'c'], naturalNumbers());
+for (const x of zipped) {
+    console.log(x);
+}
+```
+
+#### combinators
+
+Builds on the same concept as the above method of iterating of a finite subset, but using a combinator like `take` to accomplish it.
+
+```
+// our combinator from earlier on
+function take(n, iterable) {
+    const iter = iterable[Symbol.iterator]();
+    return {
+        [Symbol.iterator]() {
+            return this;
+        },
+        next() {
+            if (n > 0) {
+                n--;
+                return iter.next();
+            } else {
+                return { done: true };
+            }
+        }
+    };
+}
+
+for (const x of take(3, naturalNumbers())) {
+    console.log(x);
+}
+```
+
+Of the above methods, I think a combinator would probabaly be the simplest if you don't need to specially assign each value to a variable.
+
 # Conclusion
 
-I didn't have time to go into `21.6 More examples of iterables` So I'll be ending it here.
+I didn't have time to go into `21.7 FAQ: iterables and iterators` So I'll be ending it here.
