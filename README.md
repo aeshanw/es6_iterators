@@ -97,9 +97,7 @@ strIter2.next()
 
 The chapter has a few paras devoted to some of the theory of how Iterables allow _data-consumers a.k.a loops, use the Iteration protocol to iterate through the data structures mentioned above.
 
-```
-Iterable and iterators are part of a so-called protocol (interfaces plus rules for using them) for iteration. A key characteristic of this protocol is that it is sequential: the iterator returns values one at a time. That means that if an iterable data structure is non-linear (such as a tree), iteration will linearize it.
-```
+> Iterable and iterators are part of a so-called protocol (interfaces plus rules for using them) for iteration. A key characteristic of this protocol is that it is sequential: the iterator returns values one at a time. That means that if an iterable data structure is non-linear (such as a tree), iteration will linearize it.
 
 #### Iterable computed data
 
